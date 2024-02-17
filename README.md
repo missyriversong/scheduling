@@ -3,6 +3,12 @@
 ## Description
 Facilitate staffing and client scheduling
 
+## Activity Diagram
+![scheduling-activity](img/image.png)
+
+## Relationship Model
+![scheduling-relationship-model](img/image-1.png)
+
 ## Technologies
 - Python
 - Django
