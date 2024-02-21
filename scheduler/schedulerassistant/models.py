@@ -19,38 +19,64 @@ from datetime import datetime
 # Create your models here.
 
 
+#should change to models format e.g. CharField?
 class Client:
-  def __init__(self, name: str, phone: int, txtype: str):    #?
+  def __init__(self, id: int, name: str, phone: int, txtype: str):    #?
+    self.id = id
     self.name = name    
     self.phone = phone
     self.txtype = txtype
+      
 
 class Staff:
-  def __init__(self, name: str, cert: str, ft_status: bool): 
+  def __init__(self, id: int, name: str, cert: str, ft_status: bool): 
+    self.id = id
     self.name = name    
     self.cert = cert
     self.ft_status = ft_status
+
 
 #class Clinic
     #self.name = name
 
 class Sched:  #aka availability
-  def __init__(self, date: datetime.date, start_time: datetime.time, end_time: datetime.time, available: bool):
+  def __init__(self, date: datetime.date, start_time: datetime.time, end_time: datetime.time, available: bool, client: Client, staff: Staff):
+    self.id = id
     self.date = date
     self.start_time = start_time
     self.end_time = end_time
     self.available = available    # e.g. 3/1/24, 8a-6p clinic open true
-  # 1tM clientid, staffid, clinicid? 
+  # MtM clientid, staffid, clinicid? 
     
 
+  client = models.ManyToManyField(Client)  
+  staff = models.ManyToManyField(Staff)
+  
+  def client_avail(self, client: Client) -> bool:
+    return self.client and self.available 
+
+
 class Appt: 
-  def __init__(self, date: datetime.date, start_time: datetime.time, end_time: datetime.time):
+  def __init__(self, date: datetime.date, start_time: datetime.time, end_time: datetime.time, client: Client, staff: Staff):
+    self.id = id
     self.date = date
     self.start_time = start_time
     self.end_time = end_time
-  # MtM: clientid, staffid
-    
- 
+
+  # MtM: clientid, staffid?
+    # client = models.ManyToManyField(Client)
+    # staff = models.ManyToManyField(Staff)
+  
+  # https://www.freecodecamp.org/news/python-property-decorator/
+  @property
+  def check_tx(self, client: Client, staff: Staff) -> bool:
+    return client.txtype == staff.cert
+
+  @property
+  def check_staff_avail(self, staff: Staff, sched: Sched) -> bool:    #MtM staff and sched?
+    return Staff and sched.available == True
+
+#  def book()
   # add client appointment 
     # if clinic is open -> schedule?       vs. appointment -> booked interaction btwn client and staff?
         # check if during hours of operation clinic

@@ -5,4 +5,10 @@ from datetime import datetime
 # Create your tests here.
 
 
+# # https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Testing
+# python3 manage.py test
+class Client(TestCase):
+  def setupTestData(cls): 
+    print("setUpTestData: Run once to set up non-modified data for all class methods.")
+    pass
 
