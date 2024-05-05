@@ -15,8 +15,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # path('client/:id>', views.client_info, name='client_info')   is /:id the right format? 
+    # path(staff...)
+    # path('schedule/', views.schedule, name='schedule') this would not be easy to read  maybe schedule/<:id>
+    #  or include('schedule.urls')  
+    path('', include("schedulerassistant.urls")),
 ]
+
+#include all rest apis
